@@ -62,7 +62,7 @@ create_database = """
 """
 
 
-def connect_to_database_and_execute_command(command: str, create: bool = False):
+def connect_to_database_and_execute_command(command: str, fetch: bool = False):
     host = os.getenv('HOST')
     user = os.getenv('USER')
     password = os.getenv('PASSWORD')
@@ -80,8 +80,8 @@ def connect_to_database_and_execute_command(command: str, create: bool = False):
 
         with connection.cursor() as cursor:
             cursor.execute(command)
-            if not create:
-                print(f"Результат: {cursor.fetchall()}")
+            if fetch:
+                print(f"\nРезультат: {cursor.fetchall()}\n")
     except (Exception, Error) as error:
         print("[INFO] Ошибка при работе с PostgreSQL", error)
     finally:
@@ -92,7 +92,7 @@ def connect_to_database_and_execute_command(command: str, create: bool = False):
 
 if __name__ == '__main__':
     # Создание нужных таблиц и заполнение их данными
-    connect_to_database_and_execute_command(create_database, create=True)
+    connect_to_database_and_execute_command(create_database)
 
     # Первый вариант решения
     popular_product_category = """
@@ -125,4 +125,4 @@ if __name__ == '__main__':
         LIMIT 1;
     """
 
-    connect_to_database_and_execute_command(popular_product_category)  # Поиск самой популярной категории товаров
+    connect_to_database_and_execute_command(popular_product_category, fetch=True)  # Поиск самой популярной категории товаров
