@@ -87,7 +87,6 @@ def connect_to_database_and_execute_command(command: str, fetch: bool = False):
     finally:
         if connection:
             connection.close()
-            print("[INFO] Соединение с PostgreSQL закрыто")
 
 
 if __name__ == '__main__':
